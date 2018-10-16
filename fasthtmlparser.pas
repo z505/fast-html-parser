@@ -105,7 +105,7 @@
 
 // {$DEFINE DEBUGLN_ON}
 
-unit pwfasthtmparser;
+unit fasthtmlparser;
 
 
 interface
