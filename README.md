@@ -17,7 +17,7 @@ Use it for what reasons:
   a true parser
 * convert website tables into spreadsheets (parse TD and TR, turn in to
   CSV or similar)
-* convert websites into text files (parse all text, and tags BR P )
+* convert websites into txt files
 * convert website tables into CSV/Database (parse TD and TR)
 * find certain info from a web page.. i.e. all the bold text or hyperlinks in
   a page.
