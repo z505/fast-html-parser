@@ -7,9 +7,10 @@ HTML Parser for FPC and Delphi originally written by Jazarsoft
 
 TODO:
 * keep the entire HTML file in an array for later usage: htmltags[] and text[]
+* parse like this: OnSection(opentag, text, closetag); as a different parser 
+  kind so that globals are not needed to keep track of InTag booleans, etc.
 
-
-Use it for what reasons:
+Use this parser for what reasons:
 * make your own web browsers,
 * make your own text copies of web pages for caching purposes
 * Grab content from websites -without- using regular expressions
