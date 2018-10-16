@@ -13,6 +13,8 @@ TODO:
 * associate a number (open tag) with the text label using a record or such
   i.e. < body > < b >some text< / b >< / body >
   where < b > is tag "2" and some text is text "1"
+* turn into a DLL using FPC or C so that other languages can use a callback
+  to parse html fast in that language (i.e. golang, python, etc.)  
 
 Use this parser for what reasons:
 * make your own web browsers,
