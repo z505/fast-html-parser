@@ -3,16 +3,16 @@ HTML Parser for FPC and Delphi originally written by Jazarsoft
 
 * Modified for use as a pure command line unit (no dialogs) for freepascal.
 * Also added UPPERCASE tags so that when you check for i.e. <font> it returns
-  all tags like <FONT> and <FoNt> and <font>
+  all tags like < FONT > and < FoNt > and < font >
 
 TODO:
 * keep the entire HTML file in an array for later usage: htmltags[] and text[]
-* parse like this: OnSection(opentag, text, closetag); as a different parser 
+* parse like this: OnSection(opentag, text, closetag); as a different parser
   kind so that globals are not needed to keep track of InTag booleans, etc.
   so that all are together, tag, text, closing tag, in the same procedure
 * associate a number (open tag) with the text label using a record or such
-  i.e. <body><b>some text</b></body>
-  where <b> is tag "2" and some text is text "1"
+  i.e. < body > < b >some text< / b >< / body >
+  where < b > is tag "2" and some text is text "1"
 
 Use this parser for what reasons:
 * make your own web browsers,
