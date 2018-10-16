@@ -64,23 +64,22 @@ type
   TOnFoundText = procedure(Text: string) of object;
   // procedural:
   TOnFoundTextP = procedure(Text: string);  
-  
-  
 
-  // Lars's modified html parser, case insensitive or case sensitive 
+  // Lars's modified html parser, case insensitive or case sensitive
   THTMLParser = class(TObject)
-    private
-      procedure NilOnFoundTag(NoCaseTag, ActualTag: string);
-      procedure NilOnFoundText(Text: string);
-    public
-      OnFoundTag: TOnFoundTag;
-      OnFoundText: TOnFoundText;
-      OnFoundTagP: TOnFoundTagP;
-      OnFoundTextP: TOnFoundTextP;
-      Raw: Pchar;
-      constructor Create(sRaw: string);overload;
-      constructor Create(pRaw: PChar);overload;
-      procedure Exec;
+  private
+    procedure NilOnFoundTag(NoCaseTag, ActualTag: string);
+    procedure NilOnFoundText(Text: string);
+  public
+    UseTagTextArray: boolean;
+    OnFoundTag: TOnFoundTag;
+    OnFoundText: TOnFoundText;
+    OnFoundTagP: TOnFoundTagP;
+    OnFoundTextP: TOnFoundTextP;
+    Raw: Pchar;
+    constructor Create(sRaw: string);overload;
+    constructor Create(pRaw: PChar);overload;
+    procedure Exec;
   end;
 
 
@@ -100,7 +99,6 @@ begin
   StrLCopy(@S[1], StartIndex, Length);
   Result:= S;
 end;
-
 
 
 { ************************ THTMLParser ************************************** }
@@ -135,7 +133,6 @@ end;
 procedure NilOnFoundTextP(Text: string);
 begin 
 end;
-
 
 procedure THTMLParser.Exec;
 var
