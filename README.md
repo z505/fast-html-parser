@@ -6,9 +6,7 @@ HTML Parser for FPC and Delphi originally written by Jazarsoft
   all tags like <FONT> and <FoNt> and <font>
 
 TODO:
-* keep the entire HTML file in an array for later usage
-  ** htmltags[] 
-  ** text[]
+* keep the entire HTML file in an array for later usage: htmltags[] and text[]
 
 
 Use it for what reasons:
