@@ -15,10 +15,10 @@ Use it for what reasons:
 * Grab content from websites -without- using regular expressions
 * Seems to be MUCH MUCH FASTER than regular expressions, as it is after all
   a true parser
-* convert website tables into spreadsheets (parse <TD> and <TR>, turn in to
+* convert website tables into spreadsheets (parse TD and TR, turn in to
   CSV or similar)
-* convert websites into text files (parse all text, and tags <BR> <P> )
-* convert website tables into CSV/Database (<parse <TD> and <TR>)
+* convert websites into text files (parse all text, and tags BR P )
+* convert website tables into CSV/Database (parse TD and TR)
 * find certain info from a web page.. i.e. all the bold text or hyperlinks in
   a page.
 * Parse websites remotely from a CGI app using something like Sockets or
