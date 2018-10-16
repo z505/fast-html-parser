@@ -5,6 +5,12 @@ HTML Parser for FPC and Delphi originally written by Jazarsoft
 * Also added UPPERCASE tags so that when you check for i.e. <font> it returns
   all tags like <FONT> and <FoNt> and <font>
 
+TODO:
+* keep the entire HTML file in an array for later usage
+  ** htmltags[] 
+  ** text[]
+
+
 Use it for what reasons:
 * make your own web browsers,
 * make your own text copies of web pages for caching purposes
