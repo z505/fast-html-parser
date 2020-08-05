@@ -7,7 +7,7 @@
   Lars aka L505
   http://z505.com }
   
-unit HTMLUtil; {$ifdef fpc} {$MODE OBJFPC} {$H+}{$endif}
+unit HtmUtils; {$ifdef fpc} {$MODE OBJFPC} {$H+}{$endif}
 
 interface
 

@@ -28,7 +28,7 @@
  limitation, damages for loss of profits, business interruption, loss
  of information, or any other loss), whether or not advised of the
  possibility of damage, and on any theory of liability, arising out of
- or in connection with the use or inability to use this software. 
+ or in connection with the use or inability to use this software.
 }
 
 {$IFDEF FPC}{$MODE DELPHI}{$H+}{$ENDIF}
@@ -42,13 +42,19 @@ unit fasthtmlparser;
 interface
 
 uses
- {$IFDEF KOL_MCK}KOL;{$else}SysUtils;{$ENDIF}
+{$IFDEF KOL_MCK}
+  KOL,
+{$else}
+  SysUtils,
+{$ENDIF}
+  Dialogs, //DEBUG REMOVE THIS LATER
+  htmtool, htmutils;
 
 
 {$IFDEF DEBUGLN_ON}
   // dummy, default debugging
   procedure debugproc(s: string);
-	// for custom debugging, assign this in your units 
+	// for custom debugging, assign this in your units
   var debugln: procedure(s: string) = debugproc;
 {$ENDIF}
 
@@ -58,18 +64,28 @@ type
   // case insensitive analysis available via NoCaseTag
   TOnFoundTag = procedure(NoCaseTag, ActualTag: string) of object;
   // procedural:
-  TOnFoundTagP = procedure(NoCaseTag, ActualTag: string);  
+  TOnFoundTagP = procedure(NoCaseTag, ActualTag: string);
 
   // when text  found in the HTML
   TOnFoundText = procedure(Text: string) of object;
   // procedural:
-  TOnFoundTextP = procedure(Text: string);  
+  TOnFoundTextP = procedure(Text: string);
 
   // Lars's modified html parser, case insensitive or case sensitive
   THTMLParser = class(TObject)
   private
+    FElementFound: boolean;
+    FElementTag: string;
+    FElementTagEnd: string;
+    FElementHtml: string;
+    FElementName: string;
+    FElementId: string;
+    FFindingElementName: boolean;
+    FFindingElementId: boolean;
     procedure NilOnFoundTag(NoCaseTag, ActualTag: string);
     procedure NilOnFoundText(Text: string);
+    procedure ElementOnFoundTag(NoCaseTag, ActualTag: string);
+    procedure ElementOnFoundText(Text: string);
   public
     UseTagTextArray: boolean;
     OnFoundTag: TOnFoundTag;
@@ -80,6 +96,8 @@ type
     constructor Create(sRaw: string);overload;
     constructor Create(pRaw: PChar);overload;
     procedure Exec;
+    function GetElementByName(name: string; var Tag: string; var TagEnd: string): string;
+    function GetElementById(id: string; var Tag: string; var TagEnd: string): string;
   end;
 
 
@@ -88,7 +106,7 @@ implementation
 
 // default debugging, do nothing, let user do his own by assigning DebugLn var
 procedure debugproc(s: string);
-begin 
+begin
 end;
 
 function CopyBuffer(StartIndex: PChar; Length: Integer): string;
@@ -100,7 +118,6 @@ begin
   Result:= S;
 end;
 
-
 { ************************ THTMLParser ************************************** }
 
 constructor THTMLParser.Create(pRaw: Pchar);
@@ -108,6 +125,14 @@ begin
   if pRaw = '' then exit;
   if pRaw = nil then exit;
   Raw:= pRaw;
+  FElementFound := false;
+  FElementTag := '';
+  FElementTagEnd := '';
+  FElementHtml := '';
+  FElementName := '';
+  FElementId := '';
+  FFindingElementName := false;
+  FFindingElementId := false;
 end;
 
 constructor THTMLParser.Create(sRaw: string);
@@ -118,20 +143,51 @@ end;
 
 { default dummy "do nothing" class events if unassigned }
 procedure THTMLParser.NilOnFoundTag(NoCaseTag, ActualTag: string);
-begin 
+begin
 end;
 
 procedure THTMLParser.NilOnFoundText(Text: string);
-begin 
+begin
+end;
+
+procedure THTMLParser.ElementOnFoundTag(NoCaseTag, ActualTag: string);
+begin
+  // tags inside
+  if FElementFound then FElementHtml := FElementHtml + ActualTag;
+
+  if (FElementId <> '') and (FFindingElementName) then begin
+    if GetVal(ActualTag, 'name') = FElementName then begin
+      FElementFound := true;
+      FElementTag := ActualTag;
+      // FElementName := '';
+    end;
+  end;
+
+  if (FElementId <> '') and (FFindingElementId) then begin
+    if GetVal(ActualTag, 'id') = FElementId then begin
+      FElementFound := true;
+      FElementTag := ActualTag;
+      // FElementId := '';
+    end;
+  end;
+  // closer tag
+  if NoCaseTag[2] = '/' then FElementFound := false;
+end;
+
+procedure THTMLParser.ElementOnFoundText(Text: string);
+begin
+  if FElementFound then begin
+    FElementHtml := FElementHtml + Text;
+  end;
 end;
 
 { default dummy "do nothing" procedural events if unassigned }
 procedure NilOnFoundTagP(NoCaseTag, ActualTag: string);
-begin 
+begin
 end;
 
 procedure NilOnFoundTextP(Text: string);
-begin 
+begin
 end;
 
 procedure THTMLParser.Exec;
@@ -147,7 +203,7 @@ begin
   if not assigned(OnFoundTag) then OnFoundTag:= NilOnFoundTag;
   if not assigned(OnFoundTextP) then  OnFoundTextP:= NilOnFoundTextP;
   if not assigned(OnFoundTagP) then OnFoundTagP:= NilOnFoundTagP;
-  
+
   TL:= StrLen(Raw);
   I:= 0;
   P:= Raw;
@@ -176,7 +232,7 @@ begin
         { Yes, copy to buffer, OO event:}
         OnFoundText( CopyBuffer(TextStart, L) );
         // procedural:
-        OnFoundTextP( CopyBuffer(TextStart, L) );        
+        OnFoundTextP( CopyBuffer(TextStart, L) );
       end else
       begin
         TextStart:= nil;
@@ -213,8 +269,8 @@ begin
       // OO event
       OnFoundTag(uppercase(CopyBuffer(TagStart, L)), CopyBuffer(TagStart, L ) ); //L505: added uppercase
       // procedural
-      OnFoundTagP(uppercase(CopyBuffer(TagStart, L)), CopyBuffer(TagStart, L ) );       
-      
+      OnFoundTagP(uppercase(CopyBuffer(TagStart, L)), CopyBuffer(TagStart, L ) );
+
       Inc(P); Inc(I);
       if I >= TL then Break;
     until (Done);
@@ -222,9 +278,47 @@ begin
   {$IFDEF DEBUGLN_ON}debugln('FastHtmlParser Exec End');{$ENDIF}
 end;
 
+function THTMLParser.GetElementByName(name: string; var Tag: string; var TagEnd: string): string;
+begin
+  result := '';
+  FFindingElementName := true;
+  OnFoundTag := ElementOnFoundTag;
+  OnFoundText := ElementOnFoundText;
+  FElementName := name;
+  Exec;
+  OnFoundTag := NilOnFoundTag;
+  OnFoundText := NilOnFoundText;
+  Tag := FElementTag;
+  TagEnd := FElementTagEnd;
+  result := FElementHtml;
+  FFindingElementName := false;
+  FElementTag := '';
+  FElementTagEnd := '';
+  FElementHtml := '';
+  FElementId := '';
+  FElementName := '';
+end;
+
+function THTMLParser.GetElementById(id: string; var Tag: string; var TagEnd: string): string;
+begin
+  result := '';
+  FFindingElementId := true;
+  OnFoundTag := ElementOnFoundTag;
+  OnFoundText := ElementOnFoundText;
+  FElementId := id;
+  Exec;
+  OnFoundTag := NilOnFoundTag;
+  OnFoundText := NilOnFoundText;
+  Tag := FElementTag;
+  TagEnd := FElementTagEnd;
+  result := FElementHtml;
+  FFindingElementId := false;
+  FElementTag := '';
+  FElementTagEnd := '';
+  FElementHtml := '';
+  FElementId := '';
+  FElementName := '';
+end;
 
 end.
-
-
-
 
