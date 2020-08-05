@@ -5,7 +5,13 @@ HTML Parser for FPC and Delphi originally written by Jazarsoft
 * Also added UPPERCASE tags so that when you check for i.e. <font> it returns
   all tags like < FONT > and < FoNt > and < font >
 
-TODO:
+## Versions
+Revision 18 is Version 1 of this tool
+
+After revision 18 version 2 of the tool is being worked on with more object methods to access
+elements by Name or ID for example just like a DOM.
+
+## Todo
 * keep the entire HTML file in an array for later usage: htmltags[] and text[]
 * parse like this: OnSection(opentag, text, closetag); as a different parser
   kind so that globals are not needed to keep track of InTag booleans, etc.
@@ -14,7 +20,7 @@ TODO:
   i.e. < body > < b >some text< / b >< / body >
   where < b > is tag "2" and some text is text "1"
 * turn into a DLL using FPC or C so that other languages can use a callback
-  to parse html fast in that language (i.e. golang, python, etc.)  
+  to parse html fast in that language (i.e. golang, python, etc.)
 
 Use this parser for what reasons:
 * make your own web browsers,
