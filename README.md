@@ -3,7 +3,7 @@ HTML Parser for FreePascal and Delphi originally written by Jazarsoft.
 
 * Modified for use as a pure command line unit (no dialogs) for FreePascal.
 * Also added UPPERCASE tags so that when you check for i.e. `<font>` it returns
-  all tags like `< FONT >` and `< FoNt >` and `< font >`.
+  all tags like `<FONT>` and `<FoNt>` and `<font>`.
 
 ## Versions
 Revision 18 is Version 1 of this tool
@@ -17,7 +17,7 @@ elements by Name or ID for example just like a DOM.
   kind so that globals are not needed to keep track of InTag booleans, etc.
   so that all are together, tag, text, closing tag, in the same procedure
 * associate a number (open tag) with the text label using a record or such
-  i.e. `< body > < b >some text< / b >< / body >`
+  i.e. `<body><b>some text</b></body>`
   where `< b >` is tag "2" and some text is text "1"
 * turn into a DLL using FPC or C so that other languages can use a callback
   to parse html fast in that language (i.e. Go, Python, etc.)
