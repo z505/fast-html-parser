@@ -1,9 +1,9 @@
 # Fast HTML Parser
-HTML Parser for FPC and Delphi originally written by Jazarsoft
+HTML Parser for FreePascal and Delphi originally written by Jazarsoft.
 
-* Modified for use as a pure command line unit (no dialogs) for freepascal.
-* Also added UPPERCASE tags so that when you check for i.e. <font> it returns
-  all tags like < FONT > and < FoNt > and < font >
+* Modified for use as a pure command line unit (no dialogs) for FreePascal.
+* Also added UPPERCASE tags so that when you check for i.e. `<font>` it returns
+  all tags like `< FONT >` and `< FoNt >` and `< font >`.
 
 ## Versions
 Revision 18 is Version 1 of this tool
@@ -17,16 +17,16 @@ elements by Name or ID for example just like a DOM.
   kind so that globals are not needed to keep track of InTag booleans, etc.
   so that all are together, tag, text, closing tag, in the same procedure
 * associate a number (open tag) with the text label using a record or such
-  i.e. < body > < b >some text< / b >< / body >
-  where < b > is tag "2" and some text is text "1"
+  i.e. `< body > < b >some text< / b >< / body >`
+  where `< b >` is tag "2" and some text is text "1"
 * turn into a DLL using FPC or C so that other languages can use a callback
-  to parse html fast in that language (i.e. golang, python, etc.)
+  to parse html fast in that language (i.e. Go, Python, etc.)
 
 Use this parser for what reasons:
 * make your own web browsers,
 * make your own text copies of web pages for caching purposes
-* Grab content from websites -without- using regular expressions
-* Seems to be MUCH MUCH FASTER than regular expressions, as it is after all
+* Grab content from websites **without** using regular expressions
+* Seems to be **much much faster** than regular expressions, as it is after all
   a true parser
 * convert website tables into spreadsheets (parse TD and TR, turn in to
   CSV or similar)
@@ -41,5 +41,3 @@ Use this parser for what reasons:
 * HTML editor.. WYSIWYG or a partial WYSIWYG editor. Ambitious, but possible.
 * HTML property editor. Not completely wysiwyg but ability to edit proprties
   of tags. Work would need to be done to parse each property in a tag.
-
-
