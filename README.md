@@ -6,7 +6,7 @@ HTML Parser for FreePascal and Delphi originally written by Jazarsoft.
   all tags like `<FONT>` and `<FoNt>` and `<font>`.
 
 ## Versions
-Revision 18 is Version 1 of this tool
+Revision 18 is Version 1 of this tool.
 
 After revision 18 version 2 of the tool is being worked on with more object methods to access
 elements by Name or ID for example just like a DOM.
@@ -23,21 +23,22 @@ elements by Name or ID for example just like a DOM.
   to parse html fast in that language (i.e. Go, Python, etc.)
 
 Use this parser for what reasons:
-* make your own web browsers,
-* make your own text copies of web pages for caching purposes
-* Grab content from websites **without** using regular expressions
+
+* Make your own web browsers.
+* Make your own text copies of web pages for caching purposes.
+* Grab content from websites **without** using regular expressions.
 * Seems to be **much much faster** than regular expressions, as it is after all
-  a true parser
-* convert website tables into spreadsheets (parse TD and TR, turn in to
-  CSV or similar)
-* convert websites into txt files
-* convert website tables into CSV/Database (parse TD and TR)
-* find certain info from a web page.. i.e. all the bold text or hyperlinks in
+  a true parser.
+* Convert website tables into spreadsheets (parse TD and TR, turn in to
+  CSV or similar).
+* Convert websites into txt files.
+* Convert website tables into CSV/Database (parse TD and TR).
+* Find certain info from a web page.. i.e. all the bold text or hyperlinks in
   a page.
 * Parse websites remotely from a CGI app using something like Sockets or
   Synapse and SynWrap to first get the HTML site. This would allow you to
   dynamically parse info from websites and display data on your site in real
   time.
-* HTML editor.. WYSIWYG or a partial WYSIWYG editor. Ambitious, but possible.
+* HTML editor. WYSIWYG or a partial WYSIWYG editor. Ambitious, but possible.
 * HTML property editor. Not completely wysiwyg but ability to edit proprties
   of tags. Work would need to be done to parse each property in a tag.
